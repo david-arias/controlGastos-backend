@@ -1,13 +1,25 @@
-const { Pool } = require("pg");
+// DEBUG
+const {
+    color,
+    log,
+    red,
+    green,
+    cyan,
+    cyanBright,
+} = require("console-log-colors");
+// END DEBUG
+
+const mongoose = require("mongoose");
 require("dotenv").config();
 
-const pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
-});
+const connectDB = async () => {
+    try {
+        await mongoose.connect(process.env.MONGO_URI);
+        console.log(green("✅ Conectado a MongoDB con éxito"));
+    } catch (err) {
+        console.error(red("❌ Error de conexión a MongoDB:"), err.message);
+        process.exit(1); // Detener la app si falla la conexión
+    }
+};
 
-// Verificación de conexión
-pool.on("connect", () => {
-    console.log("✅ Conectado a la base de datos PostgreSQL");
-});
-
-module.exports = pool;
+module.exports = connectDB;
