@@ -63,7 +63,11 @@ router.post("/login", async (req, res) => {
         if (!user) {
             return res
                 .status(400)
-                .json({ error: "Credenciales inválidas mail" });
+                .json({
+                    error: "¡Ups! No te encontramos, tu nombre de usuario no existe",
+                    title: "¡Ups! No te encontramos.",
+                    text: "Tu nombre de usuario no existe",
+                });
         }
 
         // 2. Comparar la contraseña enviada con el hash en la BD
@@ -71,7 +75,11 @@ router.post("/login", async (req, res) => {
         if (!isMatch) {
             return res
                 .status(400)
-                .json({ error: "Credenciales inválidas pass" });
+                .json({
+                    error: "Credenciales inválidas pass",
+                    title: "¡Algo no cuadra...",
+                    text: "Esa contraseña no coincide con nuestros registros",
+                });
         }
 
         // 3. Crear el Token JWT
@@ -93,6 +101,8 @@ router.post("/login", async (req, res) => {
     } catch (err) {
         res.status(500).json({
             error: "Error en el servidor al iniciar sesión",
+            title: "Tenemos un problema técnico.",
+            text: "No pudimos conectar con tu cuenta en este momento. Por favor, inténtalo de nuevo en unos minutos.",
         });
     }
 });

@@ -34,9 +34,12 @@ app.use("/api/expenses", expenseRoutes);
 // Prueba de vida del servidor
 app.get("/", (req, res) => {
     console.log(cyan.bold(`🚀 API Connect - success! ✅`));
-
-    res.send("API de Gastos funcionando 🚀");
+    res.json({
+        message: "API de Gastos funcionando 🚀",
+        dbok: true,
+        // users,
+    });
 });
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Servidor en puerto ${PORT}`));
+const PORT = process.env.PORT || 5001;
+app.listen(PORT, () => console.log(green.bold(`Servidor en puerto ${PORT} | http://localhost:${PORT}`)));
