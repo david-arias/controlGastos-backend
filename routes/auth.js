@@ -41,6 +41,8 @@ router.post("/register", async (req, res) => {
         const savedUser = await newUser.save();
         res.status(201).json({
             message: "usuario creado con exito",
+            title: "¡Ya eres parte del equipo!",
+            text: "Todo está listo para que alcances tus metas financieras.",
             user: {
                 id: savedUser._id,
                 username: savedUser.username,
@@ -49,7 +51,11 @@ router.post("/register", async (req, res) => {
             },
         });
     } catch (err) {
-        res.status(400).json({ error: "El email ya existe o datos inválidos" });
+        res.status(400).json({
+            error: "El email ya existe o datos inválidos",
+            title: "Esta cuenta ya existe.",
+            text: "Ya hay un usuario registrado con este correo.",
+        });
     }
 });
 
@@ -61,25 +67,21 @@ router.post("/login", async (req, res) => {
         // 1. Buscar si el usuario existe
         const user = await User.findOne({ username });
         if (!user) {
-            return res
-                .status(400)
-                .json({
-                    error: "¡Ups! No te encontramos, tu nombre de usuario no existe",
-                    title: "¡Ups! No te encontramos.",
-                    text: "Tu nombre de usuario no existe",
-                });
+            return res.status(400).json({
+                error: "¡Ups! No te encontramos, tu nombre de usuario no existe",
+                title: "¡Ups! No te encontramos.",
+                text: "Tu nombre de usuario no existe",
+            });
         }
 
         // 2. Comparar la contraseña enviada con el hash en la BD
         const isMatch = await bcrypt.compare(password, user.password_hash);
         if (!isMatch) {
-            return res
-                .status(400)
-                .json({
-                    error: "Credenciales inválidas pass",
-                    title: "¡Algo no cuadra...",
-                    text: "Esa contraseña no coincide con nuestros registros",
-                });
+            return res.status(400).json({
+                error: "Credenciales inválidas pass",
+                title: "¡Algo no cuadra...",
+                text: "Esa contraseña no coincide con nuestros registros",
+            });
         }
 
         // 3. Crear el Token JWT
