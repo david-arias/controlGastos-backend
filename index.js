@@ -32,7 +32,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/expenses", expenseRoutes);
 
 // Prueba de vida del servidor
-app.get("/", (req, res) => {
+app.get("/api/", (req, res) => {
     console.log(cyan.bold(`🚀 API Connect - success! ✅`));
     res.json({
         message: "API de Gastos funcionando 🚀",
@@ -42,4 +42,8 @@ app.get("/", (req, res) => {
 });
 
 const PORT = process.env.PORT || 5001;
-app.listen(PORT, () => console.log(green.bold(`Servidor en puerto ${PORT} | http://localhost:${PORT}`)));
+app.listen(PORT, () =>
+    console.log(
+        green.bold(`Servidor en puerto ${PORT} | http://localhost:${PORT}`),
+    ),
+);
